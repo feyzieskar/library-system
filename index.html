@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ortaçağ Kütüphane Yönetim Sistemi - Kitap, Üye ve Ödünç Takip">
+    <title>📜 Ortaçağ Kütüphanesi</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ─── Login View ─── -->
+    <div id="loginView" class="login-wrapper">
+        <div class="login-card">
+            <div class="login-logo">
+                <div class="icon">📜</div>
+                <h1>Ortaçağ Kütüphanesi</h1>
+                <p>Bilgi hazinesine hoş geldiniz</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">⚔️ Kullanıcı Adı</label>
+                    <input type="text" id="loginUsername" class="form-control" placeholder="Adınızı yazınız..."
+                        autocomplete="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">🔑 Şifre</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="••••••••"
+                        autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-full" id="loginBtn">
+                    ⚔️ Giriş Yap
+                </button>
+            </form>
+            <div class="auth-switch">
+                <p>Henüz üye değil misiniz? <a href="#" onclick="showRegister(); return false;">📝 Üye Ol</a></p>
+            </div>
+            <div class="demo-credentials">
+                <div class="demo-title">📋 Demo Hesaplar:</div>
+                <div class="demo-item"><span class="demo-role">👑 Admin:</span> <strong>admin</strong> /
+                    <strong>admin123</strong></div>
+                <div class="demo-item"><span class="demo-role">📚 Kütüphaneci:</span> <strong>librarian</strong> /
+                    <strong>lib123</strong></div>
+                <div class="demo-item"><span class="demo-role">🧪 Tester:</span> <strong>tester</strong> /
+                    <strong>test123</strong></div>
+                <div class="demo-item"><span class="demo-role">👤 Üyeler:</span> <strong>ahmet</strong> /
+                    <strong>ahmet123</strong></div>
+                <div class="demo-item"><span class="demo-role"></span> <strong>ayse</strong> / <strong>ayse123</strong>
+                </div>
+                <div class="demo-item"><span class="demo-role"></span> <strong>mehmet</strong> /
+                    <strong>mehmet123</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── Register View ─── -->
+    <div id="registerView" class="login-wrapper" style="display:none">
+        <div class="login-card">
+            <div class="login-logo">
+                <div class="icon">📝</div>
+                <h1>Üyelik Oluştur</h1>
+                <p>Kütüphaneye katılın</p>
+            </div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>⚔️ Kullanıcı Adı *</label>
+                    <input type="text" class="form-control" id="regUsername" placeholder="Kullanıcı adınız..." required
+                        minlength="3">
+                </div>
+                <div class="form-group">
+                    <label>🔑 Şifre *</label>
+                    <input type="password" class="form-control" id="regPassword" placeholder="Şifreniz..." required
+                        minlength="4">
+                </div>
+                <div class="form-group">
+                    <label>📛 Ad Soyad *</label>
+                    <input type="text" class="form-control" id="regFullName" placeholder="Tam adınız..." required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>📧 E-posta</label>
+                        <input type="email" class="form-control" id="regEmail" placeholder="ornek@mail.com">
+                    </div>
+                    <div class="form-group">
+                        <label>📞 Telefon</label>
+                        <input type="tel" class="form-control" id="regPhone" placeholder="555-xxxx">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-full" id="registerBtn">
+                    📝 Üye Ol
+                </button>
+            </form>
+            <div class="auth-switch">
+                <p>Zaten üye misiniz? <a href="#" onclick="showLoginView(); return false;">⚔️ Giriş Yap</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── App Layout ─── -->
+    <div id="appView" class="app-layout" style="display:none">
+
+        <!-- Mobile Toggle -->
+        <button class="mobile-toggle" id="mobileToggle">☰</button>
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">📜</div>
+                <div>
+                    <h2>Kütüphane</h2>
+                    <small>Ortaçağ Arşivi</small>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Ana Menü</div>
+                <a class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+                    <span class="nav-icon">📊</span>
+                    Dashboard
+                </a>
+                <a class="nav-item" data-page="books" onclick="navigateTo('books')">
+                    <span class="nav-icon">📖</span>
+                    Kitaplar
+                </a>
+                <a class="nav-item" data-page="members" onclick="navigateTo('members')">
+                    <span class="nav-icon">👥</span>
+                    Üyeler
+                </a>
+
+                <div class="nav-section-title">İşlemler</div>
+                <a class="nav-item" data-page="borrows" onclick="navigateTo('borrows')">
+                    <span class="nav-icon">🔄</span>
+                    Ödünç İşlemleri
+                    <span class="badge" id="overdueCountBadge" style="display:none">0</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar">A</div>
+                    <div class="user-details">
+                        <div class="name" id="userName">Admin</div>
+                        <div class="role" id="userRole">Yönetici</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    🚪 Oturumu Kapat
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="pageContent"></div>
+        </main>
+    </div>
+
+    <!-- ─── Modal ─── -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modalContent"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/books.js"></script>
+    <script src="js/members.js"></script>
+    <script src="js/borrows.js"></script>
+</body>
+
+</html>
