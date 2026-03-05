@@ -1,7 +1,7 @@
 FROM php:8.2-apache
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Fix MPM conflict: disable event, enable prefork (required for PHP)
+RUN a2dismod mpm_event && a2enmod mpm_prefork && a2enmod rewrite
 
 # Install MySQL PDO driver
 RUN docker-php-ext-install pdo pdo_mysql
